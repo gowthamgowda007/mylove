@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Pookie 💖</title>
+    <style>
+        :root {
+            --primary-pink: #ff85a2;
+            --secondary-pink: #fde2e4;
+            --deep-pink: #ff4d6d;
+            --bright-pink: #ff0055;
+            --white: #ffffff;
+            --soft-pink: #ffc2d1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--secondary-pink);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            touch-action: manipulation;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Shake animation for when No is clicked */
+        .shake {
+            animation: shake-animation 0.3s;
+        }
+
+        @keyframes shake-animation {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .container {
+            position: relative;
+            width: 90%;
+            max-width: 450px;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(255, 133, 162, 0.3);
+            text-align: center;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            color: var(--deep-pink);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .gif-container {
+            width: 100%;
+            height: 250px; 
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .gif-container img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 20px;
+            object-fit: contain;
+        }
+
+        .yes-gif-move {
+            position: absolute;
+            width: 80px;
+            top: -30px;
+            right: -15px;
+            animation: pulse-move 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-move {
+            from { transform: scale(1) rotate(0deg); }
+            to { transform: scale(1.2) rotate(15deg); }
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            min-height: 150px;
+            position: relative;
+        }
+
+        button {
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1.1rem;
+        }
+
+        .btn-yes {
+            background-color: #4ade80;
+            color: white;
+            padding: 15px 40px;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-no {
+            background-color: var(--primary-pink);
+            color: white;
+            padding: 10px 25px;
+            box-shadow: 0 4px 10px rgba(255, 133, 162, 0.3);
+            position: absolute;
+            white-space: nowrap;
+            z-index: 100;
+        }
+
+        #giftsPage {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gift-container-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .gift-box-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .gift-box-item:hover {
+            transform: scale(1.1);
+        }
+
+        .gift-icon {
+            font-size: 2.5rem;
+            background: #fff0f3;
+            padding: 10px;
+            border-radius: 15px;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .lock-icon {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 1rem;
+        }
+
+        .gift-label {
+            font-size: 0.8rem;
+            color: var(--deep-pink);
+            font-weight: bold;
+        }
+
+        .btn-dirty {
+            background-color: var(--bright-pink);
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(255, 0, 85, 0.3);
+            z-index: 100;
+            margin-top: 20px;
+            display: block;
+        }
+
+        .heart {
+            position: fixed;
+            color: var(--deep-pink);
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 4s linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(8px);
+        }
+
+        .message-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .challenge-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--soft-pink);
+            border-radius: 15px;
+            margin: 15px 0;
+            outline: none;
+            font-size: 1rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .challenge-input:focus {
+            border-color: var(--primary-pink);
+        }
+
+        .unlock-btn {
+            background-color: var(--primary-pink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            width: 100%;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .payment-card {
+            background: linear-gradient(135deg, #ff85a2 0%, #ff4d6d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: left;
+            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 3px solid var(--secondary-pink);
+        }
+
+        .dirty-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .dirty-gallery img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .close-btn {
+            margin-top: 1.5rem;
+            background: var(--deep-pink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            width: 100%;
+        }
+
+        .love-letter-paper {
+            background: #fffafa;
+            border: 2px dashed var(--primary-pink);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: left;
+            line-height: 1.6;
+            color: #444;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        .bottom-gif-container {
+            width: 100%;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .bottom-gif-item {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bottom-gif-item img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Proposal Screen -->
+    <div class="container" id="proposalScreen">
+        <h1 id="mainQuestion">Will you be my Valentine, Pookie? 💖</h1>
+        
+        <div class="gif-container">
+            <img class="yes-gif-move" id="sideGif" src="https://media.tenor.com/On7_28CjSzsAAAAi/chibi-cat.gif" alt="Happy cat">
+            <img id="mainGif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHVmaG9kZHNhbHZncTl0OGs5Nm5nNTRjaXdwaTBtNzRxcGY1aTZycCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/1JmGiBtqTuehfYxuy9/giphy.gif" alt="Proposal Cute GIF">
+        </div>
+
+        <div class="btn-group" id="buttonContainer">
+            <button class="btn-yes" id="yesBtn" onclick="handleYes()">
+                YES! 💕 
+                <img src="https://media.tenor.com/Cy6W6N6Y6p8AAAAi/heart.gif" width="25" alt="heart">
+            </button>
+            <button class="btn-no" id="noBtn" onmouseover="handleNo()" onclick="handleNo()">No 😢</button>
+        </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div class="container" id="giftsPage" style="max-height: 95vh; overflow-y: auto;">
+        <h1>yaaaayyyy i knew it... 🥰</h1>
+        
+        <div class="gift-container-row">
+            <div class="gift-box-item" onclick="startChallenge(1)">
+                <div class="gift-icon" id="icon1">📸<span class="lock-icon">🔒</span></div>
+                <div class="gift-label">Gift 1</div>
+            </div>
+            <div class="gift-box-item" onclick="startChallenge(2)">
+                <div class="gift-icon" id="icon2">💌<span class="lock-icon">🔒</span></div>
+                <div class="gift-label">Gift 2</div>
+            </div>
+            <div class="gift-box-item" onclick="startPaymentFlow()">
+                <div class="gift-icon" id="icon3">💳<span class="lock-icon">🔒</span></div>
+                <div class="gift-label">Gift 3</div>
+            </div>
+        </div>
+
+        <!-- STACKED BOTTOM GIFS -->
+        <div class="bottom-gif-container">
+            <div class="bottom-gif-item">
+                <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3bnNuMmV3aTh4d3o3cWJna2RmdnE2OG5mdm0ydmd1NXo0bDFlaG4wNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/bpTL6wXRuMQpMIVduB/giphy.gif" alt="Special Gift GIF 1">
+            </div>
+            <div class="bottom-gif-item">
+                <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3cmxlempvcWc3eTlvYWZhcGI2NHlhc2xnbTY4d3p3ajY5aGYya3p0YiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/iJgoGwkqb1mmH1mES3/giphy.gif" alt="Special Gift GIF 2">
+            </div>
+        </div>
+
+        <!-- DIRTY BUTTON AT BOTTOM -->
+        <button class="btn-dirty" id="dirtyBtn" onclick="handleDirtyClick()">Dirty thing! 😈</button>
+
+        <p style="margin-top: 15px; font-size: 0.8rem; color: #888;">(Unlock the gifts to see surprises!)</p>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="message-box" id="messageBox">
+            <div id="modalContent"></div>
+            <button class="close-btn" onclick="closeModal()">Back to Pookie</button>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const dirtyBtn = document.getElementById('dirtyBtn');
+        const mainQuestion = document.getElementById('mainQuestion');
+        const mainGif = document.getElementById('mainGif');
+        const sideGif = document.getElementById('sideGif');
+        const overlay = document.getElementById('overlay');
+        const modalContent = document.getElementById('modalContent');
+        
+        let noCount = 0;
+        let dirtyCount = 0;
+        let yesScale = 1;
+        let noScale = 1;
+
+        const unlockedGifts = { 1: false, 2: false, 3: false };
+        const challenges = {
+            1: { 
+                q: "Secret key is carried by you... 🎒👠", 
+                sub: "Search your most precious belongings... I've hidden a code for your eyes only.",
+                a: "4612" 
+            },
+            2: { 
+                q: "Gift him something and valuable and get code... 🎁💎", 
+                a: "1605" 
+            },
+            3: { pin: "79" } 
+        };
+        
+        const noMessages = [
+            "Are you sure? 🥺", "Think again! 🍕", "Pleaseee? 🍪", "I'll be sad... 😭", 
+            "Pretty please? 🙏", "Don't do this 💔", "Look at the big YES! 👈",
+            "Just click YES! 😊", "Why are you like this? 😤", "Seriously?! 🤨"
+        ];
+
+        function handleNo() {
+            noCount++;
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 300);
+            moveElement(noBtn);
+            noBtn.innerText = noMessages[Math.min(noCount, noMessages.length - 1)];
+            yesScale += 0.55;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            noScale -= 0.05;
+            if (noScale < 0.3) noScale = 0.3;
+            noBtn.style.transform = `scale(${noScale})`;
+
+            if (noCount === 4) {
+                mainGif.src = "https://media.tenor.com/6GZ2bZK6aJwAAAAC/cute-bear.gif";
+                mainQuestion.innerText = "PLEASE POOKIE?! 🥺";
+            }
+            if (noCount >= 12) {
+                noBtn.style.display = "none";
+                mainQuestion.innerText = "JUST CLICK YES! ❤️";
+            }
+        }
+
+        function moveElement(el) {
+            const maxX = window.innerWidth - el.offsetWidth - 50;
+            const maxY = window.innerHeight - el.offsetHeight - 50;
+            const randomX = Math.max(25, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(25, Math.floor(Math.random() * maxY));
+            el.style.position = 'fixed';
+            el.style.left = randomX + 'px';
+            el.style.top = randomY + 'px';
+        }
+
+        function handleDirtyClick() {
+            dirtyCount++;
+            if (dirtyCount < 3) {
+                moveElement(dirtyBtn);
+                if (dirtyCount === 1) dirtyBtn.innerText = "Try harder! 🔥";
+                if (dirtyCount === 2) dirtyBtn.innerText = "Almost caught! 🤏";
+            } else {
+                dirtyBtn.style.position = 'relative';
+                dirtyBtn.style.left = 'auto';
+                dirtyBtn.style.top = 'auto';
+                dirtyBtn.style.margin = '20px auto 0 auto';
+                dirtyBtn.innerText = "Dirty thing! 😈";
+                dirtyCount = 0;
+                showDirtyGallery();
+            }
+        }
+
+        function startChallenge(id) {
+            if (unlockedGifts[id]) {
+                revealGift(id);
+                return;
+            }
+
+            const challenge = challenges[id];
+            let html = `
+                <h2 style="color: var(--deep-pink); margin-bottom: 10px;">${id === 1 ? 'Mystery Box 🗝️' : 'Pookie Task 🧠'}</h2>
+                <p style="color: #666; font-size: 0.9rem;">${challenge.sub || "To unlock this gift, answer this about ME:"}</p>
+                <p style="font-weight: bold; margin-top: 15px; font-size: 1.1rem; color: var(--primary-pink);">${challenge.q}</p>
+                <input type="text" id="challengeInput" class="challenge-input" placeholder="Enter Secret Code..." autocomplete="off">
+                <button class="unlock-btn" onclick="verifyAnswer(${id})">Unlock Gift 🔓</button>
+            `;
+            modalContent.innerHTML = html;
+            overlay.style.display = 'flex';
+            
+            setTimeout(() => {
+                const input = document.getElementById('challengeInput');
+                if(input) {
+                    input.focus();
+                    input.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') verifyAnswer(id);
+                    });
+                }
+            }, 100);
+        }
+
+        function verifyAnswer(id) {
+            const input = document.getElementById('challengeInput').value.toUpperCase().trim();
+            const correct = challenges[id].a.toUpperCase();
+
+            if (input === correct) {
+                unlockedGifts[id] = true;
+                document.getElementById(`icon${id}`).innerHTML = id === 1 ? '📸' : id === 2 ? '💌' : '💳';
+                revealGift(id);
+            } else {
+                const inputEl = document.getElementById('challengeInput');
+                inputEl.style.borderColor = "red";
+                inputEl.value = "";
+                inputEl.placeholder = id === 1 ? "Keep looking! 🎒" : "Wrong! You don't know me? 🥺";
+                setTimeout(() => { inputEl.style.borderColor = "var(--soft-pink)"; }, 1000);
+            }
+        }
+
+        function startPaymentFlow() {
+            if (unlockedGifts[3]) {
+                revealGift(3);
+                return;
+            }
+
+            let html = `
+                <h2 style="color: var(--deep-pink); margin-bottom: 5px;">Pookie Pay Checkout 💳</h2>
+                <p style="color: #888; font-size: 0.8rem;">Secure Transaction by Love Bank</p>
+                
+                <div class="payment-card">
+                    <p style="font-size: 0.7rem; opacity: 0.8; margin-bottom: 5px;">POOKIE GOLD CARD</p>
+                    <p style="font-size: 1.2rem; margin-bottom: 15px;">**** **** **** 1432</p>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>POOKIE LOVER</span>
+                        <span>02/99</span>
+                    </div>
+                </div>
+
+                <div style="text-align: left; margin: 15px 0; border-top: 1px solid #eee; padding-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Item: Gift #3 Surprise</span>
+                        <span>$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; color: var(--deep-pink); font-size: 1.1rem;">
+                        <span>Payable Amount:</span>
+                        <span>1,000,000 Kisses</span>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.9rem; margin-bottom: 5px;">Enter Security PIN (My Fav Number):</p>
+                <input type="password" id="pinInput" class="challenge-input" placeholder="PIN" style="margin: 5px 0 15px 0;">
+                
+                <button class="unlock-btn" id="payBtn" onclick="processPayment()">Confirm Payment 💸</button>
+            `;
+            modalContent.innerHTML = html;
+            overlay.style.display = 'flex';
+        }
+
+        function processPayment() {
+            const pin = document.getElementById('pinInput').value.trim();
+            if (pin === challenges[3].pin) {
+                const payBtn = document.getElementById('payBtn');
+                payBtn.disabled = true;
+                payBtn.innerText = "Processing kisses...";
+                
+                setTimeout(() => {
+                    unlockedGifts[3] = true;
+                    document.getElementById(`icon3`).innerHTML = '💓';
+                    revealGift(3);
+                }, 2000);
+            } else {
+                const pinEl = document.getElementById('pinInput');
+                pinEl.style.borderColor = "red";
+                pinEl.value = "";
+                pinEl.placeholder = "Wrong PIN! 🤫";
+                setTimeout(() => { pinEl.style.borderColor = "var(--soft-pink)"; }, 1000);
+            }
+        }
+
+        function revealGift(id) {
+            if (id === 1) showUsGallery();
+            else if (id === 2) showLoveLetter();
+            else if (id === 3) showMessage('Payment Successful! ✅<br><br>Gift 3: You get to be the CEO of my heart and the owner of my soul forever! 💓💍');
+        }
+
+        function showDirtyGallery() {
+            const dirtyGifs = [
+                "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2djazZrMGM5eWdydWVhMGRrdDBmZHluZW1kbGtrMTk0eW0zdGdkMCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/q8TEi7UTxas92/giphy.gif",
+                "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3bHZiNmI2NmYzMGFpZGEzbmMyaTh1d3hmaWtnc3M3MjdhcHA4OWtzeCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/1ahqfxbaxEVdC/giphy.gif",
+                "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2g3bmdmOW5iYnRtMGY5ODBlZnVqdHRpOXIwM2xqZzk3a3BwMXZjdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/GsPZ6HXOseLNm/giphy.gif"
+            ];
+            let html = `<p style="font-size: 1.2rem; color: #ff4d6d; font-weight: bold; margin-bottom: 10px;">Eww Pookie! You're so dirty... Take a shower! 🚿</p>`;
+            html += `<div class="dirty-gallery">`;
+            dirtyGifs.forEach(url => { html += `<img src="${url}" alt="Bathing GIF">`; });
+            html += `</div>`;
+            modalContent.innerHTML = html;
+            overlay.style.display = 'flex';
+        }
+
+        function showUsGallery() {
+            let html = `<h2 style="color: var(--deep-pink); margin-bottom: 15px;">Our Memories 📸</h2><div class="image-gallery">`;
+            for (let i = 1; i <= 7; i++) {
+                html += `<img src="photo${i}.jpg" alt="Preview Image" width="" height="" onerror="this.src='https://placehold.co/200x200/fde2e4/ff4d6d?text=photo${i}.jpg'">`;
+            }
+            html += `</div>`;
+            modalContent.innerHTML = html;
+            overlay.style.display = 'flex';
+        }
+
+        function showLoveLetter() {
+            let html = `
+                <h2 style="color: var(--deep-pink); margin-bottom: 15px;">A Special Letter 💌</h2>
+                <div class="love-letter-paper">
+                    <p style="font-weight: bold; margin-bottom: 10px;">My love,</p>
+                    <p>I don’t even know where to begin, because words will never be enough to explain what you mean to me. You are not just my girlfriend — you are my home, my comfort, my strength. The way you care for me, protect me, and love me feels like a mother’s warmth mixed with the purest form of love. And knowing that I hurt someone who loves me so selflessly is something I regret with my entire heart.</p>
+                    <p style="margin-top: 10px;">I am deeply sorry for the pain I caused you. There is no excuse for hurting you, and I promise you that I have learned from my mistakes. I will never repeat them. I will listen more, understand more, and love you better. I want to be a safe place for you, just like you have always been for me.</p>
+                    <p style="margin-top: 10px;">I believe in you with all my heart. Your dream of completing your <b>Company Secretary course</b> and becoming a strong, independent woman inspires me every single day. I promise to support you in every step — on the days you feel confident and even more on the days you feel tired or doubtful. I will push you forward, remind you of your strength, and stand proudly beside you as you achieve everything you deserve.</p>
+                    <p style="margin-top: 10px;">I love how you care about your future, your growth, and your independence. That’s one of the many reasons I admire you so much. Your success will never threaten me — it will make me proud beyond words.</p>
+                    <p style="margin-top: 10px;">And my sweet girl, just like 🍉 <b>watermelon</b> — your favorite — you bring freshness, sweetness, and happiness into my life. You make my world lighter and my heart fuller. Even the simplest moments with you feel special to me.</p>
+                    <p style="margin-top: 10px;">Thank you for choosing me, for loving me, and for staying even when things weren’t easy. I don’t take your love for granted anymore. I choose you — today, tomorrow, and every day after — with more patience, respect, loyalty, and endless love.</p>
+                    <p style="margin-top: 20px; text-align: right; font-weight: bold;">Always yours,<br>❤️</p>
+                </div>`;
+            modalContent.innerHTML = html;
+            overlay.style.display = 'flex';
+        }
+
+        function handleYes() {
+            document.getElementById('proposalScreen').style.display = 'none';
+            document.getElementById('giftsPage').style.display = 'flex';
+            noBtn.style.display = 'none';
+            const music = document.getElementById('bgMusic');
+            music.play().catch(() => {});
+            startHearts();
+        }
+
+        function showMessage(text) {
+            modalContent.innerHTML = `<p style="font-size: 1.2rem; color: #ff4d6d; font-weight: bold;">${text}</p>`;
+            overlay.style.display = 'flex';
+        }
+
+        function closeModal() { overlay.style.display = 'none'; }
+
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = ['💖', '💗', '💓', '💕', '💘'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 300);
+        }
+
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); handleNo(); });
+        dirtyBtn.addEventListener('touchstart', (e) => { e.preventDefault(); handleDirtyClick(); });
+    </script>
+</body>
+</html>
